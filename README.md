@@ -9,11 +9,16 @@ Tesseract, and the English language data ships inside the extension. No API keys
 
 ---
 
-## Install (unpacked)
+## Install
 
-1. Open `chrome://extensions`
-2. Enable **Developer mode**
-3. **Load unpacked** → select the [`ext/`](ext) folder
+1. Download **`video-text-extension.zip`** and unzip it (or clone this repo)
+2. Open `chrome://extensions`
+3. Enable **Developer mode** (top-right)
+4. **Load unpacked** → select the unzipped folder (or [`ext/`](ext) from the repo)
+5. Pin it via the puzzle-piece icon
+
+Chrome/Edge/Brave/Opera/Arc, version 116+. Step-by-step walkthrough and
+troubleshooting: **[INSTALL.md](INSTALL.md)**.
 
 ## Use
 
