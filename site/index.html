@@ -3,538 +3,643 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Video Text — text in a video isn't text. Until now.</title>
-    <meta name="description" content="Draw a box over any video and get real, copyable text. Subtitles, slides, captions — exported as SRT, DOCX, TXT and more. Runs entirely on your machine." />
+    <title>Video Text — Text From Any Video, Not Retyping</title>
+    <meta name="description" content="Draw a box over any video and get real, copyable text. Subtitles, slides and captions exported as SRT, DOCX or TXT. Runs entirely on your machine." />
 
-    <meta property="og:title" content="Video Text — text in a video isn't text. Until now." />
+    <meta property="og:title" content="Video Text — Text From Any Video, Not Retyping" />
     <meta property="og:description" content="Draw a box over any video and get real, copyable text. Export SRT, DOCX, TXT. 100% on-device OCR." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="../ext/icons/icon128.png" />
 
     <style>
-      /* ============================================================
-         Editorial layout: off-white paper, hairline rules,
-         oversized tight display type, small-caps labels,
-         spec tables, one warm accent.
-         ============================================================ */
+      /* ==========================================================
+         Structure mirrors a lead-gen landing template:
+         hero + capture form, 2x2 service grid, numbered process,
+         pull quote, platform strip, hero stat, metrics band,
+         architecture cards, closing CTA.
+         Visual language is our own.
+         ========================================================== */
       :root {
-        --paper: #f2f0eb;
-        --sheet: #ffffff;
-        --ink: #0e0e0c;
-        --grey: #6d6a63;
-        --rule: #d8d4cb;
-        --rule-dk: #0e0e0c;
-        --accent: #ff4438;
-        --mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+        --bg: #ffffff;
+        --ink: #10100e;
+        --body: #55534d;
+        --line: #e4e1da;
+        --wash: #f6f4ef;
+        --sun: #ffc94a;          /* warm accent, echoes the template's yellow */
+        --sun-dp: #ffb800;
+        --focus: #2f6df6;
       }
       * { box-sizing: border-box; margin: 0; padding: 0; }
       html { scroll-behavior: smooth; }
       body {
-        background: var(--paper); color: var(--ink);
-        font: 16px/1.62 ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg); color: var(--ink);
+        font: 16px/1.65 ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
       }
       a { color: inherit; }
+      .wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
 
-      /* the page sits on a white sheet inset from the paper */
-      .sheet { max-width: 1200px; margin: 0 auto; background: var(--sheet); }
-      @media (min-width: 1000px) { .sheet { margin: 26px auto 40px; } }
-      .pad { padding: 0 clamp(20px, 4.4vw, 62px); }
+      h1, h2, h3 { letter-spacing: -.033em; line-height: 1.06; font-weight: 700; }
+      h1 { font-size: clamp(38px, 5.6vw, 70px); letter-spacing: -.042em; }
+      h2 { font-size: clamp(29px, 3.9vw, 47px); }
+      h3 { font-size: clamp(19px, 1.6vw, 22px); letter-spacing: -.024em; line-height: 1.2; }
+      p { color: var(--body); }
 
-      /* ---------- shared type ---------- */
-      .lbl {
-        font: 700 10.5px/1 var(--mono); letter-spacing: .19em; text-transform: uppercase;
-        color: var(--grey);
+      .eyebrow {
+        display: inline-block; font-size: 11.5px; font-weight: 700;
+        letter-spacing: .15em; text-transform: uppercase; color: var(--body);
       }
-      .lbl.ink { color: var(--ink); }
-      .display {
-        font-weight: 860; letter-spacing: -.05em; line-height: .865;
-        text-transform: uppercase; text-wrap: balance;
-      }
-      .rule { border-top: 1.5px solid var(--rule-dk); }
-      .rule-thin { border-top: 1px solid var(--rule); }
+      .eyebrow .n { color: var(--ink); margin-right: 7px; }
 
-      /* ---------- masthead ---------- */
-      .mast { display: flex; align-items: center; gap: 14px; padding-top: 22px; padding-bottom: 16px; }
-      .mast img { width: 27px; height: 27px; display: block; }
-      .mast .nm { font-weight: 800; letter-spacing: -.02em; font-size: 15.5px; }
-      .mast .sp { flex: 1; }
-      .mast nav { display: flex; gap: 26px; }
-      .mast nav a { text-decoration: none; font: 700 10.5px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--grey); }
-      .mast nav a:hover { color: var(--accent); }
-      @media (max-width: 780px) { .mast nav { display: none; } }
-      .mast .cta {
-        text-decoration: none; background: var(--ink); color: var(--sheet);
-        font: 700 10.5px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase;
-        padding: 10px 15px;
-      }
-      .mast .cta:hover { background: var(--accent); }
-
-      /* ---------- hero ---------- */
-      .hero { padding-top: clamp(34px, 5vw, 60px); padding-bottom: 0; }
-      .hero .meta {
-        display: flex; justify-content: space-between; gap: 20px;
-        padding-bottom: 12px; flex-wrap: wrap;
-      }
-      h1 {
-        font-size: clamp(52px, 12.4vw, 168px);
-        margin: 14px 0 0;
-      }
-      h1 .ln { display: block; }
-      h1 .thin { font-weight: 300; letter-spacing: -.035em; text-transform: none; font-style: italic; }
-      h1 em { font-style: normal; color: var(--accent); }
-
-      .hero-body {
-        display: grid; grid-template-columns: 1.25fr .75fr; gap: clamp(24px, 4vw, 56px);
-        padding: 26px 0 34px; align-items: start;
-      }
-      @media (max-width: 880px) { .hero-body { grid-template-columns: 1fr; } }
-      .dek { font-size: clamp(16.5px, 1.65vw, 19px); color: #33312c; max-width: 52ch; }
-      .dek strong { font-weight: 700; }
-      .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
       .btn {
-        display: inline-block; text-decoration: none; background: var(--ink); color: var(--sheet);
-        font: 700 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase;
-        padding: 15px 24px; transition: background .14s;
+        display: inline-block; text-decoration: none; font-weight: 650; font-size: 15px;
+        padding: 15px 28px; border-radius: 999px; background: var(--ink); color: #fff;
+        border: 1.5px solid var(--ink); transition: background .16s, color .16s, transform .16s;
       }
-      .btn:hover { background: var(--accent); }
-      .btn.alt { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
-      .btn.alt:hover { background: var(--ink); color: var(--sheet); }
-      .micro { font: 500 12.5px/1.5 var(--mono); color: var(--grey); margin-top: 14px; letter-spacing: .01em; }
+      .btn:hover { background: #2e2c27; transform: translateY(-1px); }
+      .btn.sun { background: var(--sun); color: var(--ink); border-color: var(--sun); }
+      .btn.sun:hover { background: var(--sun-dp); border-color: var(--sun-dp); }
+      .btn.line { background: transparent; color: var(--ink); }
+      .btn.line:hover { background: var(--ink); color: #fff; }
+      .btn.sm { padding: 11px 20px; font-size: 14px; }
 
-      /* spec table, straight from editorial layouts */
-      .spec { border-top: 1.5px solid var(--rule-dk); }
-      .spec div {
-        display: flex; justify-content: space-between; gap: 16px; align-items: baseline;
-        padding: 9px 0; border-bottom: 1px solid var(--rule);
+      /* ---------------- header ---------------- */
+      header.top {
+        position: sticky; top: 0; z-index: 60; background: rgba(255,255,255,.9);
+        backdrop-filter: blur(10px); border-bottom: 1px solid var(--line);
       }
-      .spec dt { font: 700 10.5px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); }
-      .spec dd { font-size: 13.5px; font-weight: 650; text-align: right; }
+      .top .in { display: flex; align-items: center; gap: 14px; height: 68px; }
+      .top img { width: 29px; height: 29px; }
+      .top .nm { font-weight: 750; font-size: 16px; letter-spacing: -.02em; }
+      .top .sp { flex: 1; }
+      .top nav { display: flex; gap: 28px; }
+      .top nav a { text-decoration: none; font-size: 14.5px; font-weight: 550; color: var(--body); }
+      .top nav a:hover { color: var(--ink); }
+      @media (max-width: 900px) { .top nav { display: none; } }
 
-      /* ---------- figure / product shot ---------- */
-      figure { margin: 0; }
-      .fig-frame { background: #100f0d; padding: 10px; }
-      .player { position: relative; aspect-ratio: 16/9; overflow: hidden; background: #131c2c; }
-      .player .bg { position: absolute; inset: 0; background: linear-gradient(155deg, #33486d 0%, #18243c 55%, #0a1020 100%); }
-      .player .orb { position: absolute; left: 8%; top: 11%; width: 26%; aspect-ratio: 1; border-radius: 50%;
-        background: radial-gradient(circle at 34% 30%, #61809f, #31465f); opacity: .9; }
-      .dim { position: absolute; background: rgba(8,10,16,.6); }
-      .dim.t { left:0; right:0; top:0; height:57%; }
-      .dim.b { left:0; right:0; top:85%; bottom:0; }
-      .dim.l { left:0; top:57%; width:6%; height:28%; }
-      .dim.r { right:0; top:57%; width:6%; height:28%; }
-      .sel { position: absolute; left:6%; top:57%; width:88%; height:28%; outline: 2px solid var(--accent); }
-      .sel i { position: absolute; width: 9px; height: 9px; background: var(--sheet); outline: 2px solid var(--accent); }
-      .sel i.a{left:-5px;top:-5px} .sel i.b{right:-5px;top:-5px}
-      .sel i.c{left:-5px;bottom:-5px} .sel i.d{right:-5px;bottom:-5px}
-      .cap {
-        position: absolute; left:0; right:0; top:61%; text-align:center; padding: 0 8%;
-        color:#fff; font-weight: 750; line-height: 1.3;
-        font-size: clamp(11px, 1.5vw, 17px);
-        text-shadow: 0 2px 0 #000, 0 0 10px rgba(0,0,0,.85);
+      /* ---------------- hero ---------------- */
+      .hero { position: relative; overflow: hidden; padding: clamp(56px, 7vw, 96px) 0 clamp(44px, 5vw, 72px); }
+      .hero .sunblob {
+        position: absolute; right: -90px; top: -110px; width: 420px; height: 420px; border-radius: 50%;
+        background: radial-gradient(circle at 34% 32%, #ffe9a8 0%, var(--sun) 46%, var(--sun-dp) 100%);
+        filter: blur(.3px); opacity: .92; pointer-events: none;
       }
-      .tbar { position:absolute; left:50%; transform:translateX(-50%); bottom:4%; display:flex; gap:4px; }
-      .tbar span {
-        font: 700 9px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase;
-        background:#1b2436; color:#cfdcf2; padding:6px 8px; border:1px solid #33415c;
+      @media (max-width: 900px) { .hero .sunblob { width: 260px; height: 260px; right: -70px; top: -80px; } }
+      .hero .grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: clamp(28px, 4.4vw, 64px); align-items: center; position: relative; }
+      @media (max-width: 960px) { .hero .grid { grid-template-columns: 1fr; } }
+      .hero h1 { margin: 18px 0 20px; text-wrap: balance; }
+      .hero h1 .hl {
+        background: linear-gradient(180deg, transparent 62%, var(--sun) 62%);
+        padding: 0 .06em;
       }
-      .tbar span.on { background: var(--accent); color:#fff; border-color: var(--accent); }
-      figcaption {
-        display:flex; justify-content:space-between; gap:14px; padding-top:9px; flex-wrap: wrap;
-        font: 500 11.5px/1.5 var(--mono); color: var(--grey); letter-spacing: .02em;
-      }
-      figcaption b { color: var(--ink); font-weight: 700; }
+      .hero .dek { font-size: clamp(16.5px, 1.55vw, 19px); max-width: 50ch; }
+      .hero .acts { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+      .hero .micro { font-size: 13.5px; color: var(--body); margin-top: 15px; }
 
-      /* ---------- running ticker ---------- */
-      .ticker { background: var(--ink); color: var(--paper); overflow: hidden; }
-      .ticker .tk { display:flex; gap:34px; padding: 11px 0; white-space: nowrap; animation: mv 30s linear infinite; }
-      .ticker span { font: 700 11px/1 var(--mono); letter-spacing: .17em; text-transform: uppercase; }
-      .ticker span.hot { color: var(--accent); }
+      /* capture card — the template's inline form slot */
+      .capture {
+        background: var(--wash); border: 1px solid var(--line); border-radius: 20px;
+        padding: clamp(22px, 2.6vw, 30px);
+      }
+      .capture h3 { margin-bottom: 5px; }
+      .capture .cs { font-size: 14px; color: var(--body); margin-bottom: 18px; }
+      .cfield { margin-bottom: 12px; }
+      .cfield label { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--body); margin-bottom: 6px; }
+      .cbox {
+        display: flex; align-items: center; gap: 10px; background: #fff;
+        border: 1px solid var(--line); border-radius: 11px; padding: 12px 14px; font-size: 14.5px;
+      }
+      .cbox .k { font-weight: 700; font-size: 12px; background: var(--ink); color: #fff; padding: 3px 8px; border-radius: 5px; }
+      .cbox .v { color: var(--body); }
+      .cbox.ok { border-color: var(--sun-dp); background: #fffaea; }
+      .capture .go { display: block; text-align: center; width: 100%; margin-top: 16px; }
+      .capture .foot { font-size: 12.5px; color: var(--body); text-align: center; margin-top: 12px; }
+
+      /* ---------------- figure ---------------- */
+      .figwrap { margin-top: clamp(40px, 5vw, 66px); position: relative; }
+      .fig {
+        border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: #0e1626;
+        box-shadow: 0 30px 70px -30px rgba(16,16,14,.4);
+      }
+      .player { position: relative; aspect-ratio: 21/9; }
+      @media (max-width: 760px) { .player { aspect-ratio: 16/10; } }
+      .player .bg { position: absolute; inset: 0; background: linear-gradient(152deg, #35507c 0%, #1a2942 52%, #0b1322 100%); }
+      .player .orb { position: absolute; left: 7%; top: 13%; width: 17%; aspect-ratio: 1; border-radius: 50%;
+        background: radial-gradient(circle at 34% 30%, #6f8fb5, #33496a); }
+      .player .slab { position: absolute; right: 9%; top: 20%; width: 20%; height: 30%; background: rgba(255,255,255,.055); border-radius: 8px; }
+      .dim { position: absolute; background: rgba(7,10,17,.6); }
+      .dim.t { left:0; right:0; top:0; height:54%; }
+      .dim.b { left:0; right:0; top:86%; bottom:0; }
+      .dim.l { left:0; top:54%; width:7%; height:32%; }
+      .dim.r { right:0; top:54%; width:7%; height:32%; }
+      .sel { position:absolute; left:7%; top:54%; width:86%; height:32%; outline: 2px solid var(--sun); border-radius: 3px; }
+      .sel i { position:absolute; width:10px; height:10px; background:#fff; outline:2px solid var(--sun); border-radius:2px; }
+      .sel i.a{left:-5px;top:-5px}.sel i.b{right:-5px;top:-5px}
+      .sel i.c{left:-5px;bottom:-5px}.sel i.d{right:-5px;bottom:-5px}
+      .cap { position:absolute; left:0; right:0; top:59%; text-align:center; padding:0 9%;
+        color:#fff; font-weight:700; line-height:1.3; font-size: clamp(11px,1.45vw,19px);
+        text-shadow: 0 2px 0 #000, 0 0 10px rgba(0,0,0,.85); }
+      .tbar { position:absolute; left:50%; transform:translateX(-50%); bottom:4.5%; display:flex; gap:5px; }
+      .tbar span { font-size:10.5px; font-weight:650; background:#182236; color:#d3e0f5;
+        border:1px solid #31405c; padding:6px 10px; border-radius:6px; white-space:nowrap; }
+      .tbar span.on { background: var(--sun); color: var(--ink); border-color: var(--sun); }
+      .figcap { display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;
+        font-size:13px; color:var(--body); padding-top:12px; }
+      .figcap b { color: var(--ink); font-weight: 650; }
+
+      /* ---------------- platform strip ---------------- */
+      .strip { border-top:1px solid var(--line); border-bottom:1px solid var(--line); background: var(--wash); overflow:hidden; }
+      .strip .lab { text-align:center; padding: 20px 0 4px; }
+      .strip .tk { display:flex; gap:44px; padding:14px 0 20px; white-space:nowrap; animation: mv 32s linear infinite; }
+      .strip .tk span { font-size:19px; font-weight:700; letter-spacing:-.026em; color:#8d8a83; }
+      .strip .tk span.hot { color: var(--ink); }
       @keyframes mv { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-      @media (prefers-reduced-motion: reduce) { .ticker .tk { animation: none; } }
+      @media (prefers-reduced-motion: reduce){ .strip .tk{ animation:none } }
 
-      /* ---------- sections ---------- */
-      section { padding: clamp(52px, 6.5vw, 92px) 0; }
-      .sec-head { display: grid; grid-template-columns: 200px 1fr; gap: clamp(20px,4vw,52px); align-items: start; margin-bottom: 44px; }
-      @media (max-width: 820px) { .sec-head { grid-template-columns: 1fr; gap: 14px; } }
-      .sec-head h2 { font-size: clamp(30px, 4.6vw, 60px); }
-      .sec-head .side { font-size: 15.5px; color: var(--grey); max-width: 40ch; }
-      .num-col { padding-top: 6px; }
+      /* ---------------- sections ---------------- */
+      section { padding: clamp(58px, 7vw, 104px) 0; }
+      .lead { max-width: 660px; margin-bottom: clamp(34px, 4vw, 52px); }
+      .lead h2 { margin: 14px 0 14px; text-wrap: balance; }
+      .lead p { font-size: 17px; }
 
-      /* editorial multi-column feature list */
-      .feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(258px,1fr)); gap: 0; border-top: 1.5px solid var(--rule-dk); }
-      .feat { padding: 24px 22px 26px 0; border-bottom: 1px solid var(--rule); }
-      .feat:not(:last-child) { border-right: 1px solid var(--rule); padding-right: 22px; }
-      @media (min-width: 780px) { .feat { padding-left: 22px; } .feat:first-child { padding-left: 0; } }
-      .feat .no { font: 700 10.5px/1 var(--mono); color: var(--accent); letter-spacing: .16em; }
-      .feat h3 { font-size: 20px; font-weight: 780; letter-spacing: -.026em; margin: 12px 0 7px; line-height: 1.16; }
-      .feat p { font-size: 14.8px; color: var(--grey); }
-
-      /* numbered steps as an editorial list */
-      .steps { border-top: 1.5px solid var(--rule-dk); }
-      .stp {
-        display: grid; grid-template-columns: 74px 1fr 1.1fr; gap: clamp(14px,3vw,40px);
-        align-items: baseline; padding: 22px 0; border-bottom: 1px solid var(--rule);
+      /* 2x2 service grid */
+      .svc { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 24px); }
+      @media (max-width: 820px) { .svc { grid-template-columns: 1fr; } }
+      .scard {
+        border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: #fff;
+        display: flex; flex-direction: column; transition: border-color .16s, transform .16s;
       }
-      @media (max-width: 720px) { .stp { grid-template-columns: 48px 1fr; } .stp p { grid-column: 2; } }
-      .stp .idx { font: 800 30px/1 ui-sans-serif, system-ui; letter-spacing: -.04em; color: var(--rule); }
-      .stp h3 { font-size: 20.5px; font-weight: 780; letter-spacing: -.026em; }
-      .stp p { font-size: 15px; color: var(--grey); }
-      kbd {
-        font: 700 12px/1 var(--mono); background: var(--ink); color: var(--sheet);
-        padding: 3px 7px; letter-spacing: .04em;
+      .scard:hover { border-color: #cfcbc1; transform: translateY(-2px); }
+      .scard .body { padding: clamp(22px, 2.4vw, 28px); }
+      .scard .tagline { font-size: 11.5px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--body); }
+      .scard .tagline b { color: var(--ink); }
+      .scard h3 { margin: 13px 0 9px; }
+      .scard p { font-size: 15px; }
+      .scard .art { height: 148px; position: relative; overflow: hidden; border-top: 1px solid var(--line); }
+
+      /* art variants — abstract, drawn in CSS */
+      .art.a1 { background: linear-gradient(120deg, #fff3d0, #ffd870); }
+      .art.a1::after { content:''; position:absolute; inset:0;
+        background: repeating-linear-gradient(90deg, rgba(16,16,14,.16) 0 2px, transparent 2px 15px); }
+      .art.a1::before { content:''; position:absolute; left:12%; right:12%; top:38%; height:26%;
+        border:2.5px solid var(--ink); border-radius:4px; background: rgba(255,255,255,.42); }
+      .art.a2 { background: linear-gradient(120deg, #dfe7f7, #a9bde4); }
+      .art.a2::before { content:''; position:absolute; inset:0;
+        background:
+          linear-gradient(0deg, rgba(16,16,14,.2) 1.5px, transparent 1.5px) 0 26%/100% 26%,
+          linear-gradient(0deg, rgba(16,16,14,.14) 1.5px, transparent 1.5px) 0 52%/100% 26%; }
+      .art.a2::after { content:''; position:absolute; left:16%; top:30%; width:44%; height:16%;
+        background: var(--ink); border-radius:3px; }
+      .art.a3 { background: linear-gradient(120deg, #e6f0e4, #b8d6b4); }
+      .art.a3::before { content:''; position:absolute; left:10%; top:26%; width:32%; height:48%;
+        background:#fff; border:2.5px solid var(--ink); border-radius:5px; }
+      .art.a3::after { content:''; position:absolute; right:12%; top:34%; width:30%; height:32%;
+        background: var(--ink); border-radius:5px; opacity:.85; }
+      .art.a4 { background: linear-gradient(120deg, #f2e2f0, #cfa9d4); }
+      .art.a4::before { content:''; position:absolute; inset:0;
+        background: repeating-linear-gradient(45deg, rgba(16,16,14,.13) 0 8px, transparent 8px 17px); }
+      .art.a4::after { content:''; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+        width:56%; height:34%; border:2.5px solid var(--ink); border-radius:999px; background: rgba(255,255,255,.4); }
+
+      /* process */
+      .proc { border-top: 1px solid var(--line); }
+      .prow {
+        display: grid; grid-template-columns: 108px 1fr 1.15fr; gap: clamp(14px, 3vw, 40px);
+        padding: clamp(20px, 2.4vw, 28px) 0; border-bottom: 1px solid var(--line); align-items: baseline;
       }
+      @media (max-width: 780px) { .prow { grid-template-columns: 70px 1fr; } .prow p { grid-column: 2; } }
+      .prow .st { font-size: 12px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--body); }
+      .prow p { font-size: 15.5px; }
+      kbd { font: inherit; font-size: 13px; font-weight: 700; background: var(--ink); color: #fff; padding: 3px 8px; border-radius: 5px; }
 
-      /* formats grid */
-      .fmt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); border-top: 1.5px solid var(--rule-dk); border-left: 1px solid var(--rule); }
-      .fmt { padding: 20px 18px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-      .fmt b { display: block; font-size: 25px; font-weight: 830; letter-spacing: -.045em; }
-      .fmt span { font: 600 10.5px/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--grey); }
-      .fmt.key b { color: var(--accent); }
+      /* quote */
+      .quote { background: var(--wash); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .quote blockquote { font-size: clamp(23px, 3.1vw, 38px); font-weight: 700; letter-spacing: -.036em;
+        line-height: 1.18; max-width: 22ch; text-wrap: balance; }
+      .quote blockquote span { background: linear-gradient(180deg, transparent 64%, var(--sun) 64%); }
+      .quote .cols { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(24px, 4vw, 60px); align-items: center; }
+      @media (max-width: 860px) { .quote .cols { grid-template-columns: 1fr; } }
+      .attr { font-size: 14px; color: var(--body); margin-top: 20px; }
+      .checks div { display: flex; gap: 11px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 15.5px; font-weight: 550; }
+      .checks div:first-child { border-top: 1px solid var(--line); }
+      .checks i { font-style: normal; font-weight: 800; color: var(--sun-dp); }
 
-      .site-list { display: flex; flex-wrap: wrap; gap: 0 26px; border-top: 1.5px solid var(--rule-dk); padding-top: 18px; }
-      .site-list span { font-size: 21px; font-weight: 760; letter-spacing: -.028em; padding: 5px 0; }
-      .site-list span.mut { color: var(--rule); }
-      .fine { font-size: 13.6px; color: var(--grey); margin-top: 22px; max-width: 68ch; }
+      /* hero stat + metrics */
+      .bigstat { display: grid; grid-template-columns: auto 1fr; gap: clamp(20px, 4vw, 52px); align-items: center; }
+      @media (max-width: 720px) { .bigstat { grid-template-columns: 1fr; } }
+      .bigstat .v { font-size: clamp(72px, 13vw, 168px); font-weight: 750; letter-spacing: -.055em; line-height: .85; }
+      .bigstat .v em { font-style: normal; color: var(--sun-dp); }
+      .bigstat .c { font-size: 17px; max-width: 34ch; }
+      .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0; border-top: 1px solid var(--line); margin-top: clamp(34px,4vw,54px); }
+      .metric { padding: 26px 24px 26px 0; border-bottom: 1px solid var(--line); }
+      @media (min-width: 820px) { .metric { padding-left: 26px; border-right: 1px solid var(--line); } .metric:first-child { padding-left: 0; } .metric:last-child { border-right: 0; } }
+      .metric b { display: block; font-size: clamp(34px, 3.6vw, 46px); font-weight: 750; letter-spacing: -.045em; line-height: 1; }
+      .metric span { display: block; font-size: 14.5px; color: var(--body); margin-top: 10px; }
 
-      /* pull quote / privacy */
-      .quote { border-top: 1.5px solid var(--rule-dk); border-bottom: 1.5px solid var(--rule-dk); padding: clamp(34px,5vw,62px) 0; }
-      .quote blockquote {
-        font-size: clamp(25px, 3.9vw, 50px); font-weight: 800; letter-spacing: -.042em;
-        line-height: 1.03; max-width: 20ch; text-wrap: balance;
-      }
-      .quote blockquote em { font-style: normal; color: var(--accent); }
-      .quote .cols { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(22px,4vw,56px); align-items: end; }
-      @media (max-width: 820px) { .quote .cols { grid-template-columns: 1fr; } }
-      .checks { display: grid; gap: 0; }
-      .checks div { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--rule); font-size: 14.8px; font-weight: 600; }
-      .checks div:first-child { border-top: 1px solid var(--rule); }
-      .checks i { font-style: normal; color: var(--accent); font-weight: 800; }
+      /* architecture cards */
+      .arch { display: grid; grid-template-columns: repeat(auto-fit, minmax(272px, 1fr)); gap: clamp(16px,2vw,24px); }
+      .acard { border: 1px solid var(--line); border-radius: 20px; padding: clamp(24px,2.6vw,30px); background: #fff; }
+      .acard .kl { font-size: 11.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--sun-dp); }
+      .acard h3 { margin: 13px 0 9px; }
+      .acard p { font-size: 15px; }
+      .acard.dark { background: var(--ink); border-color: var(--ink); }
+      .acard.dark h3 { color: #fff; }
+      .acard.dark p { color: #a8a49b; }
+      .acard.dark .kl { color: var(--sun); }
+
+      /* formats */
+      .fmts { display: grid; grid-template-columns: repeat(auto-fit, minmax(132px,1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+      .fmt { padding: 22px 18px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .fmt b { display: block; font-size: 24px; font-weight: 730; letter-spacing: -.04em; }
+      .fmt span { display: block; font-size: 12px; color: var(--body); margin-top: 5px; letter-spacing: .04em; }
+      .fmt.key b { color: var(--sun-dp); }
 
       /* faq */
-      details { border-bottom: 1px solid var(--rule); padding: 19px 0; }
-      details:first-of-type { border-top: 1.5px solid var(--rule-dk); }
-      summary {
-        cursor: pointer; list-style: none; display: flex; gap: 16px; align-items: baseline;
-        font-size: clamp(18px,2.1vw,23px); font-weight: 760; letter-spacing: -.028em;
-      }
+      details { border-bottom: 1px solid var(--line); padding: 20px 0; }
+      details:first-of-type { border-top: 1px solid var(--line); }
+      summary { cursor: pointer; list-style: none; display: flex; gap: 14px; align-items: baseline;
+        font-size: clamp(17px,1.9vw,21px); font-weight: 650; letter-spacing: -.026em; }
       summary::-webkit-details-marker { display: none; }
-      summary::after { content: '+'; margin-left: auto; font-weight: 500; color: var(--grey); font-size: 22px; line-height: 1; }
+      summary::after { content: '+'; margin-left: auto; color: var(--body); font-weight: 400; font-size: 23px; line-height: 1; }
       details[open] summary::after { content: '–'; }
-      summary .qn { font: 700 10.5px/1.6 var(--mono); color: var(--accent); letter-spacing: .14em; }
-      details p { font-size: 15.2px; color: var(--grey); margin-top: 11px; padding-left: 44px; max-width: 72ch; }
+      summary .qn { font-size: 12px; font-weight: 700; color: var(--sun-dp); letter-spacing: .1em; }
+      details p { font-size: 15.5px; margin-top: 12px; padding-left: 40px; max-width: 74ch; }
       details p + p { margin-top: 9px; }
       @media (max-width: 620px) { details p { padding-left: 0; } }
 
       /* closing */
-      .closer { background: var(--ink); color: var(--paper); padding: clamp(52px,7vw,96px) 0; }
-      .closer h2 { font-size: clamp(34px, 6.6vw, 88px); margin-bottom: 26px; }
-      .closer .row { display:flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-      .closer .btn { background: var(--accent); color: #fff; }
-      .closer .btn:hover { background: var(--paper); color: var(--ink); }
-      .closer .btn.alt { background: transparent; color: var(--paper); border-color: var(--paper); }
-      .closer .btn.alt:hover { background: var(--paper); color: var(--ink); }
+      .closer { background: var(--ink); color: #fff; border-radius: 26px; padding: clamp(44px,6vw,84px) clamp(24px,4vw,64px);
+        position: relative; overflow: hidden; }
+      .closer .blob { position: absolute; right: -70px; bottom: -110px; width: 340px; height: 340px; border-radius: 50%;
+        background: radial-gradient(circle at 36% 32%, #ffe9a8, var(--sun) 48%, var(--sun-dp)); opacity: .95; }
+      .closer .inner { position: relative; max-width: 20ch; }
+      .closer h2 { color: #fff; margin-bottom: 22px; text-wrap: balance; }
+      .closer .row { display: flex; gap: 12px; flex-wrap: wrap; }
 
-      footer { padding: 30px 0 40px; }
-      footer .in { display:flex; gap: 20px; align-items:center; flex-wrap: wrap; border-top: 1px solid var(--rule); padding-top: 20px; }
-      footer p, footer a { font: 500 11.5px/1.5 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--grey); }
-      footer a { text-decoration: none; }
-      footer a:hover { color: var(--accent); }
+      footer { padding: 40px 0 56px; }
+      footer .in { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 24px; }
+      footer p, footer a { font-size: 13.5px; color: var(--body); }
+      footer a { text-decoration: none; font-weight: 550; }
+      footer a:hover { color: var(--ink); }
       footer .sp { flex: 1; }
+      .fine { font-size: 13.5px; color: var(--body); margin-top: 20px; max-width: 70ch; }
     </style>
   </head>
   <body>
-    <div class="sheet">
-      <!-- ================= masthead ================= -->
-      <div class="pad">
-        <div class="mast">
-          <img src="../ext/icons/icon128.png" alt="Video Text" />
-          <span class="nm">Video Text</span>
-          <span class="sp"></span>
-          <nav>
-            <a href="#how">How it works</a>
-            <a href="#export">Export</a>
-            <a href="#privacy">Privacy</a>
-            <a href="#faq">FAQ</a>
-          </nav>
-          <a class="cta" href="#install">Install</a>
-        </div>
+    <header class="top">
+      <div class="wrap in">
+        <img src="../ext/icons/icon128.png" alt="Video Text" />
+        <span class="nm">Video Text</span>
+        <span class="sp"></span>
+        <nav>
+          <a href="#what">What it does</a>
+          <a href="#how">How it works</a>
+          <a href="#numbers">Specs</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <a class="btn sm" href="#install">Install free</a>
       </div>
+    </header>
 
-      <!-- ================= hero ================= -->
-      <div class="pad hero">
-        <div class="rule"></div>
-        <div class="meta" style="padding-top:12px">
-          <span class="lbl ink">Chrome Extension — v1.0</span>
-          <span class="lbl">Free &amp; open source · Runs offline</span>
-        </div>
-
-        <h1 class="display">
-          <span class="ln">Text in a</span>
-          <span class="ln">video isn't</span>
-          <span class="ln">text. <span class="thin"><em>Until now.</em></span></span>
-        </h1>
-
-        <div class="hero-body">
+    <!-- ============ 1. HERO + 2. CAPTURE ============ -->
+    <div class="hero">
+      <div class="sunblob"></div>
+      <div class="wrap">
+        <div class="grid">
           <div>
+            <span class="eyebrow"><span class="n">01</span>Chrome extension · v1.0</span>
+            <h1>Text From Any Video, <span class="hl">Not Retyping</span></h1>
             <p class="dek">
-              Drag a box over any video — subtitles, slides, code, a meme — and get
-              back <strong>real, selectable text</strong>. Build a whole transcript
-              while it plays, then export it as SRT, DOCX or plain TXT.
+              Draw a box over a video and get back real, selectable text — subtitles,
+              slides, code, captions. Build a full transcript while it plays, then
+              export it as SRT, DOCX or plain TXT.
             </p>
-            <div class="hero-actions">
-              <a class="btn" href="#install">Add to Chrome</a>
-              <a class="btn alt" href="https://github.com/PulseInAir/Video-Text">Read the source</a>
+            <div class="acts">
+              <a class="btn sun" href="#install">Add to Chrome — free</a>
+              <a class="btn line" href="#how">See how it works</a>
             </div>
-            <p class="micro">No account · No upload · Chrome, Edge, Brave, Opera, Arc</p>
+            <p class="micro">No account · Nothing uploaded · Chrome, Edge, Brave, Opera, Arc</p>
           </div>
 
-          <dl class="spec">
-            <div><dt>Engine</dt><dd>On-device OCR</dd></div>
-            <div><dt>Network calls</dt><dd>None</dd></div>
-            <div><dt>Formats</dt><dd>8 · SRT, DOCX, TXT…</dd></div>
-            <div><dt>Platforms</dt><dd>11 tuned + any HTML5</dd></div>
-            <div><dt>Licence</dt><dd>MIT</dd></div>
-            <div><dt>Price</dt><dd>Free</dd></div>
-          </dl>
+          <div class="capture">
+            <h3>Start extracting</h3>
+            <p class="cs">Four steps, about ten seconds. Nothing to configure.</p>
+
+            <div class="cfield">
+              <label>Step one — open</label>
+              <div class="cbox"><span class="v">Any video on any site</span></div>
+            </div>
+            <div class="cfield">
+              <label>Step two — activate</label>
+              <div class="cbox"><span class="k">Alt</span><span class="k">S</span><span class="v">Selection box appears</span></div>
+            </div>
+            <div class="cfield">
+              <label>Step three — frame it</label>
+              <div class="cbox"><span class="v">Drag corners over the text</span></div>
+            </div>
+            <div class="cfield">
+              <label>Step four — result</label>
+              <div class="cbox ok"><span class="v">“we need to talk about the results”</span></div>
+            </div>
+
+            <a class="btn sun go" href="#install">Get the extension</a>
+            <p class="foot">Free &amp; open source · MIT licensed</p>
+          </div>
         </div>
 
-        <figure>
-          <div class="fig-frame">
+        <div class="figwrap">
+          <div class="fig">
             <div class="player">
-              <div class="bg"></div><div class="orb"></div>
+              <div class="bg"></div><div class="orb"></div><div class="slab"></div>
               <div class="cap">we need to talk about the results<br />before the meeting starts</div>
               <div class="dim t"></div><div class="dim b"></div><div class="dim l"></div><div class="dim r"></div>
               <div class="sel"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
               <div class="tbar"><span class="on">Grab text</span><span>Auto</span><span>Results</span><span>Done</span></div>
             </div>
           </div>
-          <figcaption>
-            <span><b>Fig. 1</b> — Selection overlay on a paused frame. Drag to move, corners to resize.</span>
-            <span>Output → <b>“we need to talk about the results…”</b></span>
-          </figcaption>
-        </figure>
-      </div>
-
-      <div class="ticker" style="margin-top: clamp(40px,5vw,64px)">
-        <div class="tk">
-          <span>YouTube</span><span>TikTok</span><span>Instagram</span><span>X / Twitter</span><span>Facebook</span>
-          <span>Vimeo</span><span>Twitch</span><span>Reddit</span><span>LinkedIn</span><span>Coursera</span>
-          <span>Udemy</span><span class="hot">+ any HTML5 video</span>
-          <span>YouTube</span><span>TikTok</span><span>Instagram</span><span>X / Twitter</span><span>Facebook</span>
-          <span>Vimeo</span><span>Twitch</span><span>Reddit</span><span>LinkedIn</span><span>Coursera</span>
-          <span>Udemy</span><span class="hot">+ any HTML5 video</span>
+          <div class="figcap">
+            <span><b>The selection overlay.</b> Drag to move, pull the corners to resize, press Grab.</span>
+            <span>Recognised locally in under a second</span>
+          </div>
         </div>
       </div>
+    </div>
 
-      <!-- ================= features ================= -->
-      <section class="pad">
-        <div class="sec-head">
-          <div class="num-col"><span class="lbl">§ 01 — Capabilities</span></div>
+    <!-- ============ platform strip ============ -->
+    <div class="strip">
+      <div class="lab"><span class="eyebrow">Works on the sites you actually watch</span></div>
+      <div class="tk">
+        <span>YouTube</span><span>TikTok</span><span>Instagram</span><span>X / Twitter</span><span>Facebook</span>
+        <span>Vimeo</span><span>Twitch</span><span>Reddit</span><span>LinkedIn</span><span>Coursera</span>
+        <span>Udemy</span><span class="hot">+ any HTML5 video</span>
+        <span>YouTube</span><span>TikTok</span><span>Instagram</span><span>X / Twitter</span><span>Facebook</span>
+        <span>Vimeo</span><span>Twitch</span><span>Reddit</span><span>LinkedIn</span><span>Coursera</span>
+        <span>Udemy</span><span class="hot">+ any HTML5 video</span>
+      </div>
+    </div>
+
+    <!-- ============ 3+4. SECTION LEAD + 2x2 SERVICE GRID ============ -->
+    <section id="what">
+      <div class="wrap">
+        <div class="lead">
+          <span class="eyebrow"><span class="n">02</span>Capabilities</span>
+          <h2>Text on screen, put to work</h2>
+          <p>
+            Pause, squint, type, scrub back because you missed a word. Video Text
+            replaces that loop with a rectangle — and keeps everything it reads.
+          </p>
+        </div>
+
+        <div class="svc">
+          <article class="scard">
+            <div class="body">
+              <p class="tagline"><b>01</b> &nbsp;Selection</p>
+              <h3>Grab any region of the frame</h3>
+              <p>Drag a box over subtitles, a slide, a code snippet or a sign in the background. Move it, resize from the corners, or take the whole video at once.</p>
+            </div>
+            <div class="art a1"></div>
+          </article>
+
+          <article class="scard">
+            <div class="body">
+              <p class="tagline"><b>02</b> &nbsp;Transcripts</p>
+              <h3>Auto-capture while it plays</h3>
+              <p>Leave Auto running and each new subtitle is read as it appears, with near-duplicate frames skipped. Export the result as a properly timed .srt.</p>
+            </div>
+            <div class="art a2"></div>
+          </article>
+
+          <article class="scard">
+            <div class="body">
+              <p class="tagline"><b>03</b> &nbsp;Library</p>
+              <h3>Everything you grab is kept</h3>
+              <p>Captures are stored locally with their source and timestamp. Search them, filter by site, edit any line, and export whatever subset you need.</p>
+            </div>
+            <div class="art a3"></div>
+          </article>
+
+          <article class="scard">
+            <div class="body">
+              <p class="tagline"><b>04</b> &nbsp;Privacy</p>
+              <h3>Nothing ever leaves the browser</h3>
+              <p>The recognition engine is bundled inside the extension and runs offline. No servers, no API keys, no network requests — it works on a plane.</p>
+            </div>
+            <div class="art a4"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 5. PROCESS ============ -->
+    <section id="how" style="padding-top:0">
+      <div class="wrap">
+        <div class="lead">
+          <span class="eyebrow"><span class="n">03</span>Method</span>
+          <h2>Engineered to stay out of the way</h2>
+          <p>Install it once and it works on the next video you open.</p>
+        </div>
+
+        <div class="proc">
+          <div class="prow">
+            <span class="st">Step 01</span>
+            <h3>Open a video</h3>
+            <p>Any site running a standard HTML5 player — a YouTube lecture, a TikTok clip, a course page, an internal training video.</p>
+          </div>
+          <div class="prow">
+            <span class="st">Step 02</span>
+            <h3>Press <kbd>Alt</kbd> <kbd>S</kbd></h3>
+            <p>The overlay opens with a selection box already positioned over the usual subtitle strip, and the video pauses so you have a still frame.</p>
+          </div>
+          <div class="prow">
+            <span class="st">Step 03</span>
+            <h3>Frame the text</h3>
+            <p>Drag inside the box to move it, pull a corner to resize. Tighter boxes around just the text read noticeably more accurately.</p>
+          </div>
+          <div class="prow">
+            <span class="st">Step 04</span>
+            <h3>Grab, edit, export</h3>
+            <p>Text lands in a panel you can correct inline, then copy, save to the library, or export in any of eight formats.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 6. QUOTE ============ -->
+    <div class="quote">
+      <section style="padding-top:clamp(48px,5.5vw,80px); padding-bottom:clamp(48px,5.5vw,80px)">
+        <div class="wrap cols">
           <div>
-            <h2 class="display">You've been retyping what's on screen</h2>
-            <p class="side" style="margin-top:16px">
-              Pause. Squint. Type. Scrub back because you missed a word.
-              Video Text replaces that loop with a rectangle.
+            <span class="eyebrow"><span class="n">04</span>Position</span>
+            <blockquote style="margin-top:16px">
+              Your video never leaves <span>your computer.</span>
+            </blockquote>
+            <p class="attr">
+              Most OCR tools upload your frames to a server and call it a feature.
+              This one has no backend to upload them to.
             </p>
           </div>
-        </div>
-
-        <div class="feats">
-          <div class="feat">
-            <span class="no">01</span>
-            <h3>Select like a screenshot</h3>
-            <p>Drag a box over any part of the frame. Move it, resize from the corners, or take the whole video at once.</p>
-          </div>
-          <div class="feat">
-            <span class="no">02</span>
-            <h3>Auto-build transcripts</h3>
-            <p>Leave Auto running and it reads each subtitle as it appears, skipping repeats. Export as a timed .srt.</p>
-          </div>
-          <div class="feat">
-            <span class="no">03</span>
-            <h3>Fix it before you keep it</h3>
-            <p>OCR misreads things. Every capture stays editable — in the panel, and again later in your library.</p>
-          </div>
-          <div class="feat">
-            <span class="no">04</span>
-            <h3>Timestamps that hold up</h3>
-            <p>Captures remember the second they came from, so links jump back and subtitle cues line up properly.</p>
-          </div>
-          <div class="feat">
-            <span class="no">05</span>
-            <h3>A library, not a clipboard</h3>
-            <p>Everything is stored locally. Search it, filter by site, edit it, export any slice you want.</p>
-          </div>
-          <div class="feat">
-            <span class="no">06</span>
-            <h3>Nothing ever uploads</h3>
-            <p>The OCR engine ships inside the extension. No servers, no keys, no requests. It works on a plane.</p>
+          <div class="checks">
+            <div><i>✓</i><span>Zero network requests, ever</span></div>
+            <div><i>✓</i><span>No account, telemetry or trackers</span></div>
+            <div><i>✓</i><span>Captures stored on your own machine</span></div>
+            <div><i>✓</i><span>No broad site permissions requested</span></div>
+            <div><i>✓</i><span>MIT licensed — every line auditable</span></div>
           </div>
         </div>
       </section>
+    </div>
 
-      <!-- ================= how ================= -->
-      <section class="pad" id="how" style="padding-top:0">
-        <div class="sec-head">
-          <div class="num-col"><span class="lbl">§ 02 — Method</span></div>
+    <!-- ============ 7+8. HERO STAT + METRICS ============ -->
+    <section id="numbers">
+      <div class="wrap">
+        <div class="bigstat">
+          <div class="v"><em>8</em></div>
           <div>
-            <h2 class="display">Four steps, about ten seconds</h2>
-            <p class="side" style="margin-top:16px">Install it and it works on the next video you open. Nothing to configure.</p>
-          </div>
-        </div>
-        <div class="steps">
-          <div class="stp"><span class="idx">01</span><h3>Open a video</h3><p>Any site with a standard HTML5 player — YouTube, TikTok, a lecture page.</p></div>
-          <div class="stp"><span class="idx">02</span><h3>Press <kbd>Alt</kbd> <kbd>S</kbd></h3><p>A selection box appears, already sitting over the subtitle strip.</p></div>
-          <div class="stp"><span class="idx">03</span><h3>Frame the text</h3><p>Drag to move, pull a corner to resize. Tighter boxes read more accurately.</p></div>
-          <div class="stp"><span class="idx">04</span><h3>Grab it</h3><p>Text lands in a panel you can edit, copy, save or export eight ways.</p></div>
-        </div>
-      </section>
-
-      <!-- ================= export ================= -->
-      <section class="pad" id="export" style="padding-top:0">
-        <div class="sec-head">
-          <div class="num-col"><span class="lbl">§ 03 — Output</span></div>
-          <div>
-            <h2 class="display">Eight formats, one click</h2>
-            <p class="side" style="margin-top:16px">
-              Subtitle files carry real timings pulled from the video, so they drop
+            <span class="eyebrow"><span class="n">05</span>Output</span>
+            <h2 style="margin:12px 0 12px">Export formats, one click</h2>
+            <p class="c">
+              Subtitle files carry real timings taken from the video, so they load
               straight into VLC, Premiere or YouTube's caption editor.
             </p>
           </div>
         </div>
-        <div class="fmt-grid">
+
+        <div class="fmts" style="margin-top:clamp(30px,3.4vw,46px)">
           <div class="fmt key"><b>.srt</b><span>Subtitles</span></div>
           <div class="fmt key"><b>.vtt</b><span>Web captions</span></div>
           <div class="fmt key"><b>.docx</b><span>Word</span></div>
           <div class="fmt"><b>.txt</b><span>Plain text</span></div>
           <div class="fmt"><b>.md</b><span>Markdown</span></div>
           <div class="fmt"><b>.csv</b><span>Spreadsheet</span></div>
-          <div class="fmt"><b>.json</b><span>Structured data</span></div>
+          <div class="fmt"><b>.json</b><span>Structured</span></div>
           <div class="fmt"><b>.html</b><span>Web page</span></div>
         </div>
 
-        <div style="margin-top:clamp(44px,5vw,72px)">
-          <span class="lbl">§ 04 — Compatibility</span>
-          <div class="site-list" style="margin-top:16px">
-            <span>YouTube</span><span>Facebook</span><span>Instagram</span><span>TikTok</span>
-            <span>X / Twitter</span><span>Vimeo</span><span>Twitch</span><span>Reddit</span>
-            <span>LinkedIn</span><span>Coursera</span><span>Udemy</span>
-            <span class="mut">Any HTML5 video</span>
-          </div>
-          <p class="fine">
-            Netflix, Prime Video and Disney+ use DRM playback that returns blank
-            pixels to every browser extension. Video Text reports that plainly
-            rather than saving an empty result.
-          </p>
+        <div class="metrics">
+          <div class="metric"><b>11</b><span>Platforms with tuned adapters, plus a generic mode for any other HTML5 video</span></div>
+          <div class="metric"><b>0</b><span>Network requests made by the extension, at install or in use</span></div>
+          <div class="metric"><b>100+</b><span>Languages supported by the underlying engine; English ships in the box</span></div>
         </div>
-      </section>
 
-      <!-- ================= privacy ================= -->
-      <section class="pad" id="privacy" style="padding-top:0">
-        <div class="quote">
-          <div class="cols">
-            <blockquote>
-              Your video never leaves <em>your computer.</em>
-            </blockquote>
-            <div>
-              <p style="font-size:15.5px;color:var(--grey);margin-bottom:20px">
-                Most OCR tools upload your frames to a server and call it a feature.
-                This one can't — the engine is bundled in the extension and runs in
-                your browser. There is no backend to send anything to.
-              </p>
-              <div class="checks">
-                <div><i>✓</i><span>Zero network requests, ever</span></div>
-                <div><i>✓</i><span>No account, telemetry or trackers</span></div>
-                <div><i>✓</i><span>Captures stored on your own machine</span></div>
-                <div><i>✓</i><span>No broad site permissions requested</span></div>
-                <div><i>✓</i><span>MIT licensed — audit every line</span></div>
-              </div>
-            </div>
-          </div>
+        <p class="fine">
+          Netflix, Prime Video and Disney+ use DRM playback that returns blank pixels
+          to every browser extension. Video Text reports that plainly rather than
+          saving an empty result.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ 9. ARCHITECTURE ============ -->
+    <section style="padding-top:0">
+      <div class="wrap">
+        <div class="lead">
+          <span class="eyebrow"><span class="n">06</span>Under the hood</span>
+          <h2>Built to run entirely on your machine</h2>
+          <p>No cloud dependency means no latency, no quota, no privacy trade-off.</p>
         </div>
-      </section>
-
-      <!-- ================= install ================= -->
-      <section class="pad" id="install" style="padding-top:0">
-        <div class="sec-head">
-          <div class="num-col"><span class="lbl">§ 05 — Install</span></div>
-          <div>
-            <h2 class="display">Get it running</h2>
-            <p class="side" style="margin-top:16px">
-              Pending Web Store review, so for now you load it manually — a built-in
-              Chrome feature that takes about a minute.
-            </p>
+        <div class="arch">
+          <div class="acard">
+            <span class="kl">Recognition</span>
+            <h3>Bundled OCR engine</h3>
+            <p>A WebAssembly build of Tesseract ships inside the extension along with its language model, so recognition never depends on a network call.</p>
+          </div>
+          <div class="acard">
+            <span class="kl">Accuracy</span>
+            <h3>Frame preprocessing</h3>
+            <p>Each capture is upscaled and contrast-normalised before recognition — a measurable improvement on compressed or low-light video.</p>
+          </div>
+          <div class="acard dark">
+            <span class="kl">Permissions</span>
+            <h3>Least privilege</h3>
+            <p>No broad host permissions are requested. The overlay activates only on the tab you invoke it on, and reads nothing from the page itself.</p>
           </div>
         </div>
-        <div class="steps" style="margin-bottom:30px">
-          <div class="stp"><span class="idx">01</span><h3>Download &amp; unzip</h3><p>Put the folder somewhere you won't delete — Chrome loads it from there each launch.</p></div>
-          <div class="stp"><span class="idx">02</span><h3>Open <kbd>chrome://extensions</kbd></h3><p>Paste that into the address bar.</p></div>
-          <div class="stp"><span class="idx">03</span><h3>Enable Developer mode</h3><p>The toggle sits in the top-right corner of that page.</p></div>
-          <div class="stp"><span class="idx">04</span><h3>Load unpacked</h3><p>Select the folder containing <kbd>manifest.json</kbd>. That's it.</p></div>
-        </div>
-        <div class="hero-actions">
-          <a class="btn" href="https://github.com/PulseInAir/Video-Text/raw/arena/01a067a1-video-text/video-text-extension.zip">Download the extension</a>
-          <a class="btn alt" href="https://github.com/PulseInAir/Video-Text/blob/arena/01a067a1-video-text/INSTALL.md">Step-by-step guide</a>
-        </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- ================= faq ================= -->
-      <section class="pad" id="faq" style="padding-top:0">
-        <div class="sec-head">
-          <div class="num-col"><span class="lbl">§ 06 — Questions</span></div>
-          <div><h2 class="display">Reasonable questions</h2></div>
+    <!-- ============ FAQ ============ -->
+    <section id="faq" style="padding-top:0">
+      <div class="wrap" style="max-width:900px">
+        <div class="lead">
+          <span class="eyebrow"><span class="n">07</span>Questions</span>
+          <h2>Reasonable questions</h2>
         </div>
 
         <details open>
           <summary><span class="qn">Q1</span><span>Is it actually free?</span></summary>
-          <p>Yes, and open source. No paid tier, no usage cap, no account. Recognition runs on your own machine, so there are no server bills to pass on.</p>
+          <p>Yes, and open source. No paid tier, no usage cap, no account. Recognition runs on your own machine, so there are no server costs to pass on.</p>
         </details>
         <details>
           <summary><span class="qn">Q2</span><span>Does it work on Netflix or Prime Video?</span></summary>
-          <p>No. DRM-protected players hand back blank pixels to every browser extension — a protection built into Chrome that nothing can work around. Video Text detects it and tells you, rather than quietly saving nothing.</p>
+          <p>No. DRM-protected players hand back blank pixels to every browser extension — a protection built into Chrome that nothing can work around. Video Text detects it and tells you, instead of quietly saving nothing.</p>
         </details>
         <details>
           <summary><span class="qn">Q3</span><span>How accurate is it, honestly?</span></summary>
-          <p>Strong on clean subtitles. Weaker on small, blurry or heavily compressed text — that's the nature of OCR, not something we're hiding.</p>
+          <p>Strong on clean subtitles. Weaker on small, blurry or heavily compressed text — that is the nature of OCR, not something being hidden here.</p>
           <p>If a result looks off: draw a tighter box, raise upscale to 3–4×, or switch layout mode to “single line”. Every capture stays editable, so fixing a stray character takes a second.</p>
         </details>
         <details>
           <summary><span class="qn">Q4</span><span>Can it transcribe speech?</span></summary>
-          <p>No — it reads text that is visually on screen, not audio. For videos with burned-in subtitles the result is much the same, which is what Auto mode is built for.</p>
+          <p>No — it reads text that is visually on screen, not audio. For videos with burned-in subtitles the outcome is much the same, which is what Auto mode is built for.</p>
         </details>
         <details>
           <summary><span class="qn">Q5</span><span>Which languages?</span></summary>
-          <p>English ships in the box. The underlying engine supports 100+ languages and more models can be bundled — open an issue if you need a specific one.</p>
+          <p>English ships in the box. The underlying engine supports over 100 languages and further models can be bundled — open an issue if you need a specific one.</p>
         </details>
         <details>
           <summary><span class="qn">Q6</span><span>Why does it run on every site?</span></summary>
-          <p>Because a video can be on any page. The content script only draws the selection overlay when you press the shortcut or click the icon — it reads nothing from the page and sends nothing anywhere. The extension requests no broad host permissions at all.</p>
+          <p>Because a video can be on any page. The content script only draws the selection overlay when you press the shortcut or click the icon; it reads nothing from the page and sends nothing anywhere. No broad host permissions are requested at all.</p>
         </details>
-      </section>
+      </div>
+    </section>
 
-      <!-- ================= closer ================= -->
-      <div class="closer">
-        <div class="pad">
-          <h2 class="display">Stop retyping what's on screen</h2>
-          <div class="row">
-            <a class="btn" href="#install">Add to Chrome — free</a>
-            <a class="btn alt" href="https://github.com/PulseInAir/Video-Text">View on GitHub</a>
+    <!-- ============ 10. INSTALL ============ -->
+    <section id="install" style="padding-top:0">
+      <div class="wrap">
+        <div class="lead">
+          <span class="eyebrow"><span class="n">08</span>Install</span>
+          <h2>Get it running in a minute</h2>
+          <p>Pending Web Store review, so for now you load it manually — a built-in Chrome feature.</p>
+        </div>
+        <div class="proc" style="margin-bottom:30px">
+          <div class="prow"><span class="st">Step 01</span><h3>Download &amp; unzip</h3><p>Put the folder somewhere permanent — Chrome loads it from there on every launch.</p></div>
+          <div class="prow"><span class="st">Step 02</span><h3>Open <kbd>chrome://extensions</kbd></h3><p>Paste that into your address bar and press enter.</p></div>
+          <div class="prow"><span class="st">Step 03</span><h3>Enable Developer mode</h3><p>The toggle sits in the top-right corner of that page.</p></div>
+          <div class="prow"><span class="st">Step 04</span><h3>Load unpacked</h3><p>Select the folder containing <kbd>manifest.json</kbd>. Pin it and you're done.</p></div>
+        </div>
+        <div class="acts" style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn sun" href="https://github.com/PulseInAir/Video-Text/raw/arena/01a067a1-video-text/video-text-extension.zip">Download the extension</a>
+          <a class="btn line" href="https://github.com/PulseInAir/Video-Text/blob/arena/01a067a1-video-text/INSTALL.md">Step-by-step guide</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 11. CLOSING CTA ============ -->
+    <section style="padding-top:0">
+      <div class="wrap">
+        <div class="closer">
+          <div class="blob"></div>
+          <div class="inner">
+            <h2>Stop retyping what's on screen</h2>
+            <div class="row">
+              <a class="btn sun" href="#install">Add to Chrome — free</a>
+              <a class="btn line" style="color:#fff;border-color:#4a4842" href="https://github.com/PulseInAir/Video-Text">View source</a>
+            </div>
           </div>
         </div>
       </div>
+    </section>
 
-      <footer class="pad">
-        <div class="in">
-          <p>Video Text — MIT licensed</p>
-          <span class="sp"></span>
-          <a href="privacy.html">Privacy</a>
-          <a href="https://github.com/PulseInAir/Video-Text">GitHub</a>
-          <a href="https://github.com/PulseInAir/Video-Text/blob/arena/01a067a1-video-text/INSTALL.md">Install guide</a>
-          <a href="https://github.com/PulseInAir/Video-Text/issues">Report a bug</a>
-        </div>
-      </footer>
-    </div>
+    <footer>
+      <div class="wrap in">
+        <p>Video Text — free &amp; open source, MIT licensed.</p>
+        <span class="sp"></span>
+        <a href="privacy.html">Privacy</a>
+        <a href="https://github.com/PulseInAir/Video-Text">GitHub</a>
+        <a href="https://github.com/PulseInAir/Video-Text/blob/arena/01a067a1-video-text/INSTALL.md">Install guide</a>
+        <a href="https://github.com/PulseInAir/Video-Text/issues">Report a bug</a>
+      </div>
+    </footer>
   </body>
 </html>
