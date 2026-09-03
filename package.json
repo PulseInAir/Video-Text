@@ -1,0 +1,25 @@
+{
+  "name": "video-text",
+  "version": "1.0.0",
+  "description": "Chrome extension that extracts on-screen text from videos with local OCR.",
+  "scripts": {
+    "dev": "python3 -m http.server 8080"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PulseInAir/Video-Text.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PulseInAir/Video-Text/issues"
+  },
+  "homepage": "https://github.com/PulseInAir/Video-Text#readme",
+  "dependencies": {
+    "@tesseract.js-data/eng": "^1.0.0",
+    "tesseract.js": "^5.1.1",
+    "tesseract.js-core": "^5.1.1"
+  },
+  "private": true
+}

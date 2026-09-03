@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Video Text — Settings</title>
+    <link rel="stylesheet" href="ui.css" />
+    <style>
+      .wrap { max-width: 640px; margin: 0 auto; padding: 30px 20px 60px; }
+      h1 { font-size: 19px; margin-bottom: 4px; }
+      section { padding: 16px; margin-top: 16px; }
+      section h2 { font-size: 14px; margin-bottom: 12px; }
+      .field { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-top: 1px solid var(--line); }
+      .field:first-of-type { border-top: 0; }
+      .field .lbl { flex: 1; }
+      .field .lbl small { display: block; color: var(--muted); font-size: 12px; }
+      input[type='checkbox'] { width: 17px; height: 17px; accent-color: var(--accent); }
+      ul { color: var(--muted); font-size: 13px; padding-left: 18px; margin: 0; }
+      li { margin: 4px 0; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Video Text settings</h1>
+      <p class="muted">OCR runs entirely on your machine. No frames or text ever leave your browser.</p>
+
+      <section class="card">
+        <h2>Capture</h2>
+        <div class="field">
+          <div class="lbl">Pause the video when selection starts<small>Gives you a still frame to draw on.</small></div>
+          <input type="checkbox" id="autoPause" />
+        </div>
+        <div class="field">
+          <div class="lbl">Copy extracted text automatically<small>Puts each result straight on the clipboard.</small></div>
+          <input type="checkbox" id="autoCopy" />
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Recognition</h2>
+        <div class="field">
+          <div class="lbl">Language</div>
+          <select id="lang"><option value="eng">English</option></select>
+        </div>
+        <div class="field">
+          <div class="lbl">Layout<small>Match the shape of the text you're grabbing.</small></div>
+          <select id="psm">
+            <option value="6">Block of text (default)</option>
+            <option value="7">Single line — subtitles</option>
+            <option value="11">Scattered text — slides, UI</option>
+            <option value="3">Full page, auto</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="lbl">Boost contrast before OCR<small>Helps on compressed or low-light video.</small></div>
+          <input type="checkbox" id="contrast" />
+        </div>
+        <div class="field">
+          <div class="lbl">Upscale factor<small>Higher is more accurate on small text, but slower.</small></div>
+          <select id="upscale">
+            <option value="1">1× fastest</option>
+            <option value="2">2× balanced</option>
+            <option value="3">3×</option>
+            <option value="4">4× most accurate</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Notes</h2>
+        <ul>
+          <li>Works on YouTube, Facebook, Instagram, TikTok, X, Vimeo, Twitch, Reddit, LinkedIn, Coursera, Udemy and any other page with an HTML5 video.</li>
+          <li>DRM-protected players (Netflix, Prime Video, Disney+) return black frames to every extension — that is a browser-level restriction, not a bug here.</li>
+          <li>Shortcuts can be changed at <code>chrome://extensions/shortcuts</code>.</li>
+        </ul>
+      </section>
+    </div>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

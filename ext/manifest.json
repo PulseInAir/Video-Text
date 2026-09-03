@@ -1,0 +1,65 @@
+{
+  "manifest_version": 3,
+  "name": "Video Text — Overlay Text Extractor",
+  "version": "1.0.0",
+  "description": "Select and extract on-screen text (subtitles, slides, captions) from any video on YouTube, Facebook, Instagram, TikTok, X and more. Export TXT, SRT, VTT, DOCX.",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "storage",
+    "offscreen",
+    "scripting",
+    "activeTab",
+    "clipboardWrite",
+    "downloads",
+    "contextMenus"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "action": {
+    "default_title": "Video Text",
+    "default_popup": "pages/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "options_page": "pages/options.html",
+  "commands": {
+    "toggle-select": {
+      "suggested_key": { "default": "Alt+S", "mac": "Alt+S" },
+      "description": "Toggle text selection mode on the video"
+    },
+    "grab-frame": {
+      "suggested_key": { "default": "Alt+G", "mac": "Alt+G" },
+      "description": "Grab text from the current frame"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "exclude_matches": [
+        "*://*.google.com/search*",
+        "*://chrome.google.com/*"
+      ],
+      "js": ["content/content.js"],
+      "css": ["content/overlay.css"],
+      "run_at": "document_idle",
+      "all_frames": true,
+      "match_about_blank": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["content/*", "pages/*", "icons/*", "vendor/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

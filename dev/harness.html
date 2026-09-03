@@ -1,0 +1,52 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Video Text — overlay harness</title>
+<style>
+body{margin:0;background:#0b0f17;color:#e6eefc;font:14px system-ui;display:flex;flex-direction:column;align-items:center;padding:24px}
+h2{font-weight:600;font-size:15px}
+#stage{position:relative;width:900px;height:506px;background:#000;display:flex;align-items:center;justify-content:center}
+canvas{width:100%;height:100%;display:block}
+p.note{color:#8ba0c4;max-width:900px}
+</style></head><body>
+<h2>Overlay harness — a canvas stands in for a real &lt;video&gt;</h2>
+<div id="stage"><canvas id="c" width="1280" height="720"></canvas></div>
+<p class="note">The content script targets <code>video</code> elements; here we shim a fake one so the
+selection overlay, toolbar and results panel can be inspected without a real site.</p>
+<script>
+// Draw a subtitle-style frame.
+const c=document.getElementById('c'),x=c.getContext('2d');
+const g=x.createLinearGradient(0,0,0,720);g.addColorStop(0,'#20304d');g.addColorStop(1,'#0a1020');
+x.fillStyle=g;x.fillRect(0,0,1280,720);
+x.fillStyle='#3d5480';x.beginPath();x.arc(400,300,120,0,7);x.fill();
+x.textAlign='center';x.font='bold 44px DejaVu Sans, sans-serif';
+x.lineWidth=6;x.strokeStyle='#000';x.fillStyle='#fff';
+x.strokeText('we need to talk about the results',640,600);
+x.fillText('we need to talk about the results',640,600);
+x.strokeText('before the meeting starts',640,655);
+x.fillText('before the meeting starts',640,655);
+
+// Minimal fake <video> so content.js finds something.
+const v=document.createElement('video');
+Object.defineProperty(v,'videoWidth',{get:()=>1280});
+Object.defineProperty(v,'videoHeight',{get:()=>720});
+Object.defineProperty(v,'currentTime',{get:()=>12.5});
+Object.defineProperty(v,'paused',{get:()=>true});
+v.style.cssText='position:absolute;inset:0;width:900px;height:506px;opacity:0';
+document.getElementById('stage').appendChild(v);
+// Let drawImage(video) actually copy our canvas pixels.
+const realDraw=CanvasRenderingContext2D.prototype.drawImage;
+CanvasRenderingContext2D.prototype.drawImage=function(img,...a){
+  return realDraw.call(this, img===v?c:img, ...a);};
+
+// Stub the chrome extension APIs the content script uses.
+window.chrome={runtime:{
+  sendMessage:async(m)=>{
+    if(m.type==='ocr')return{ok:true,text:'we need to talk about the results\nbefore the meeting starts'};
+    if(m.type==='count')return{ok:true,count:3};
+    return{ok:true};},
+  onMessage:{addListener:f=>window.__vtxMsg=f},
+  getURL:p=>p},
+ storage:{sync:{get:async()=>({prefs:{autoPause:true,autoCopy:false,lang:'eng',psm:6,contrast:true,upscale:2}})}}};
+</script>
+<script src="../ext/content/content.js"></script>
+<link rel="stylesheet" href="../ext/content/overlay.css">
+<script>setTimeout(()=>window.__vtxMsg({type:'toggle-select'},{},()=>{}),150);</script>
+</body></html>
