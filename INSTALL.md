@@ -1,25 +1,86 @@
-# Installing Video Text
+# Installing Video Text in Chrome
 
-It's not on the Chrome Web Store, so you load it as an **unpacked extension** —
-a normal, supported Chrome feature. Takes about a minute.
+The extension lives on GitHub, so the first job is getting it onto **your**
+computer. Then Chrome loads it from a folder.
 
-Works in Chrome, Edge, Brave, Opera, Vivaldi, Arc — anything Chromium-based,
-version **116 or newer**.
+Total time: about a minute.
 
 ---
 
-## Step 1 — get the folder onto your computer
+## Step 1 — Download
 
-**Option A — download the zip (no git needed)**
+Click this link (or paste it into your address bar):
 
-Download **`video-text-extension.zip`** from the repo, then **unzip it**.
-You should end up with a folder that has `manifest.json` sitting directly
-inside it.
+**https://github.com/PulseInAir/Video-Text/raw/arena/01a067a1-video-text/video-text-extension.zip**
 
-> Chrome loads a *folder*, not a zip. If you point it at the zip file, or at a
-> folder that merely *contains* another folder, it will refuse.
+That downloads `video-text-extension.zip` (~16 MB) to your Downloads folder.
 
-**Option B — clone the repo**
+<sub>It's large because the entire OCR engine and English language model are
+bundled inside, so the extension never needs the internet.</sub>
+
+## Step 2 — Unzip it
+
+- **Windows** — right-click the file → **Extract All…** → **Extract**
+- **Mac** — double-click the file
+
+You'll get a folder named `video-text-extension`.
+
+**Open that folder and confirm you can see `manifest.json` inside it.** This is
+the single most common thing to get wrong — Chrome needs the folder that
+*directly* contains `manifest.json`.
+
+> On Windows, "Extract All" sometimes creates
+> `video-text-extension\video-text-extension\`. If so, the **inner** one is
+> the folder you want.
+
+Move the folder somewhere permanent — Documents is fine. **Don't delete it
+after installing:** Chrome loads the extension from this folder every time it
+starts, so if it disappears the extension breaks.
+
+## Step 3 — Open Chrome's extensions page
+
+Type `chrome://extensions` in the address bar and press Enter.
+
+(Edge: `edge://extensions` · Brave: `brave://extensions` · Opera: `opera://extensions`)
+
+## Step 4 — Turn on Developer mode
+
+Flip the **Developer mode** switch in the **top-right** corner. Three new
+buttons appear below the search bar.
+
+## Step 5 — Load unpacked
+
+Click **Load unpacked** (top-left). A file picker opens.
+
+Navigate to your unzipped `video-text-extension` folder, **select the folder
+itself — a single click to highlight it, then "Select Folder" / "Open".**
+Don't double-click into it and pick a file.
+
+**Video Text** now appears as a card on the page. ✅
+
+## Step 6 — Pin it to the toolbar
+
+Click the **puzzle-piece icon** in Chrome's toolbar, find **Video Text**, and
+click the **pin** next to it so its icon stays visible.
+
+---
+
+## Use it
+
+1. Open any video — YouTube, TikTok, X, Instagram, a lecture page
+2. Press **`Alt`+`S`** (or click the Video Text icon → **Select text**)
+3. A box appears over the video — drag it over the text you want
+4. Click **Grab text**
+
+The first grab takes a few seconds while the OCR engine loads; the rest are
+quick. Everything runs on your machine — no account, no API key, and no video
+frame ever leaves your browser.
+
+---
+
+## Alternative: install with git
+
+If you'd rather clone than download:
 
 ```bash
 git clone https://github.com/PulseInAir/Video-Text.git
@@ -27,103 +88,61 @@ cd Video-Text
 git checkout arena/01a067a1-video-text
 ```
 
-The folder you'll select is `Video-Text/ext`.
-
-## Step 2 — open the extensions page
-
-Go to **`chrome://extensions`** (paste it in the address bar).
-
-Other browsers:
-- Edge → `edge://extensions`
-- Brave → `brave://extensions`
-- Opera → `opera://extensions`
-
-## Step 3 — turn on Developer mode
-
-Toggle **Developer mode**, top-right of that page. Three buttons appear.
-
-## Step 4 — Load unpacked
-
-Click **Load unpacked** and select:
-
-- the **unzipped folder** (Option A), or
-- the **`ext`** folder inside the repo (Option B)
-
-Select the folder itself — don't open it and pick a file.
-
-**Video Text** now appears in your list. ✅
-
-## Step 5 — pin it
-
-Click the puzzle-piece icon in the toolbar, then the pin next to **Video Text**
-so the icon stays visible.
-
----
-
-## Try it
-
-1. Open any video — YouTube, TikTok, X, a course page, anything with a video
-2. Press **`Alt`+`S`** (or click the icon → **Select text**)
-3. A box appears over the subtitle area — drag it where you want
-4. Hit **Grab text**
-
-The first grab takes a few seconds while the OCR engine warms up; every one
-after that is fast. Everything runs on your machine — no account, no API key,
-and no frame ever leaves your browser.
+Then at Step 5 select the **`ext`** folder inside the clone.
 
 ---
 
 ## Troubleshooting
 
 **"Manifest file is missing or unreadable"**
-You selected the wrong folder. The folder you pick must contain `manifest.json`
-directly. If you unzipped and got `video-text-extension/ext/...`, pick the
-inner `ext`.
+You picked the wrong folder. Go back and choose the folder that has
+`manifest.json` sitting directly inside it — usually the inner folder if
+unzipping created two levels.
+
+**I don't see "Load unpacked"**
+Developer mode isn't on. It's the toggle in the top-right of
+`chrome://extensions`.
 
 **"This extension may have been corrupted"**
-Usually a partial unzip. Delete the folder, unzip again, reload.
+A partial unzip. Delete the folder, unzip the download again, and reload.
 
-**The icon is there but nothing happens on a page**
-Chrome blocks extensions on its own pages — `chrome://`, the Web Store, and
-other extensions' pages. Try an ordinary website. Also reload any tab that was
-already open *before* you installed.
+**The icon is there, but nothing happens on a page**
+Two usual causes: (1) Chrome blocks extensions on its own pages — `chrome://`,
+the Web Store — so try a normal website; (2) tabs opened *before* you installed
+need a refresh.
 
 **"No video found on this page"**
-Start playback first, then press `Alt`+`S`. Some sites only create the player
-once you hit play.
+Press play first, then `Alt`+`S`. Some sites don't create the player until
+playback starts.
 
-**Nothing happens on Netflix / Prime Video / Disney+**
-Expected. Those use DRM playback that hands back blank pixels to *any*
-extension — a browser-level protection nothing can work around. The extension
-tells you rather than saving empty text.
+**Netflix / Prime Video / Disney+ produce nothing**
+Expected. DRM playback hands back blank pixels to *any* extension — a
+browser-level protection that nothing can bypass. The extension says so instead
+of silently saving empty text.
 
 **`Alt`+`S` does nothing**
-Another extension may have claimed the shortcut. Rebind it at
+Another extension may have taken the shortcut. Rebind it at
 `chrome://extensions/shortcuts`.
 
-**The text came out wrong**
-OCR struggles with compressed or small text. Open **Settings** and raise
-**Upscale** to 3–4×, set **Layout** to *Single line* for one-line subtitles,
-and keep **Contrast boost** on. Drawing a tighter box around just the text
-helps most of all.
+**The extracted text is wrong or garbled**
+OCR struggles with small or heavily compressed text. Open the extension's
+**Settings** and raise **Upscale** to 3–4×, set **Layout** to *Single line* for
+one-line subtitles, and leave **Contrast boost** on. Drawing a tighter box
+around just the text helps most of all.
+
+**A warning about developer-mode extensions**
+Chrome shows this for anything not installed from the Web Store. It's generic,
+not specific to this code — which runs entirely locally and is fully readable
+in the `ext/` folder.
 
 ---
 
 ## Updating
 
-Replace the folder contents (or `git pull`), then hit the **↻ reload** icon on
-the extension's card at `chrome://extensions`.
+Download and unzip the new version over the old folder, then click the
+**↻ reload** icon on the extension's card at `chrome://extensions`.
 
-## Removing it
+## Uninstalling
 
-**Remove** on the card at `chrome://extensions`. Your saved captures live in
-local browser storage and go with it.
-
----
-
-### A note on "Developer mode"
-
-Chrome may warn about running extensions in developer mode. That's the generic
-notice for any extension not installed from the Web Store — it isn't about this
-code specifically. Everything here runs locally with no network access; you can
-read every line in `ext/`.
+Click **Remove** on the card at `chrome://extensions`. Saved captures live in
+local browser storage and are removed with it.
