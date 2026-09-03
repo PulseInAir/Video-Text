@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Video Text — dev preview</title>
+    <link rel="icon" href="/ext/icons/icon32.png" />
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0; background: #0b111c; color: #e6eefc;
+        font: 15px/1.6 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        display: flex; justify-content: center; padding: 42px 20px 70px;
+      }
+      .wrap { width: 100%; max-width: 760px; }
+      header { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+      header img { width: 38px; height: 38px; }
+      h1 { font-size: 21px; margin: 0; }
+      .sub { color: #8ba0c4; margin: 0 0 26px; font-size: 14px; }
+      .card {
+        display: block; text-decoration: none; color: inherit;
+        background: #101827; border: 1px solid #223049; border-radius: 12px;
+        padding: 18px 20px; margin-bottom: 14px; transition: border-color .15s, transform .15s;
+      }
+      a.card:hover { border-color: #2f6df6; transform: translateY(-1px); }
+      .card h2 { font-size: 15px; margin: 0 0 5px; display: flex; align-items: center; gap: 9px; }
+      .card p { margin: 0; color: #8ba0c4; font-size: 13.5px; }
+      .tag {
+        font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+        padding: 3px 8px; border-radius: 99px; background: #16452c; color: #7fe3ac;
+      }
+      .tag.blue { background: #16305c; color: #8fb6ff; }
+      .note {
+        border-left: 3px solid #2f6df6; background: #101827aa;
+        padding: 13px 16px; border-radius: 0 8px 8px 0; margin-top: 26px;
+        color: #a8bcda; font-size: 13.5px;
+      }
+      code { background: #1b2740; padding: 1.5px 6px; border-radius: 4px; font-size: 12.5px; }
+      h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em;
+           color: #6d80a3; margin: 30px 0 12px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <img src="/ext/icons/icon128.png" alt="" />
+        <div>
+          <h1>Video Text</h1>
+          <p class="sub">Dev preview — the extension UI, running outside Chrome</p>
+        </div>
+      </header>
+
+      <h3>Interactive</h3>
+
+      <a class="card" href="/dev/harness.html">
+        <h2>Overlay harness <span class="tag">interactive</span></h2>
+        <p>
+          The real selection overlay on a mock player. Drag the box, resize from the
+          corners, press <b>Grab text</b> — OCR is stubbed here, so it returns a fixed
+          string instantly. Best for checking layout and interaction.
+        </p>
+      </a>
+
+      <a class="card" href="/dev/fixture.html">
+        <h2>Video fixture <span class="tag">interactive</span></h2>
+        <p>
+          A genuine <code>&lt;video&gt;</code> element fed by
+          <code>captureStream()</code>, cycling through burned-in subtitles. This is what
+          the automated browser test drives. The overlay isn't loaded here — it's the
+          video source on its own.
+        </p>
+      </a>
+
+      <h3>Extension pages</h3>
+
+      <a class="card" href="/ext/pages/popup.html">
+        <h2>Popup <span class="tag blue">static</span></h2>
+        <p>The toolbar panel. Outside Chrome the extension APIs are absent, so it renders
+           but can't detect a video or export — styling only.</p>
+      </a>
+
+      <a class="card" href="/ext/pages/library.html">
+        <h2>Library <span class="tag blue">static</span></h2>
+        <p>Saved captures, search, and the format picker for all eight export types.</p>
+      </a>
+
+      <a class="card" href="/ext/pages/options.html">
+        <h2>Settings <span class="tag blue">static</span></h2>
+        <p>Pause-on-select, auto-copy, OCR language, layout mode, contrast and upscale.</p>
+      </a>
+
+      <div class="note">
+        This preview exists to inspect the interface quickly. It is <b>not</b> the
+        extension running for real — that needs
+        <code>chrome://extensions</code> → Developer mode → <b>Load unpacked</b> →
+        the <code>ext/</code> folder. See <b>INSTALL.md</b>.
+      </div>
+    </div>
+  </body>
+</html>
