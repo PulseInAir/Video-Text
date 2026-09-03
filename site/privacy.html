@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Policy — Video Text</title>
+    <meta name="description" content="Video Text privacy policy. The extension collects no data and makes no network requests; all OCR runs locally in your browser." />
+    <link rel="icon" href="../ext/icons/icon128.png" />
+    <style>
+      :root { --bg:#080d16; --panel:#101827; --line:#1f2c44; --text:#e9f0fc; --muted:#8ba0c4; --accent:#6ba0ff; --good:#7fe3ac; }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body { background: var(--bg); color: var(--text);
+        font: 16px/1.7 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased; }
+      .wrap { max-width: 760px; margin: 0 auto; padding: 44px 24px 90px; }
+      a { color: var(--accent); }
+      nav { display: flex; align-items: center; gap: 11px; margin-bottom: 40px; }
+      nav img { width: 30px; height: 30px; border-radius: 7px; }
+      nav b { font-size: 16px; }
+      nav .sp { flex: 1; }
+      nav a { text-decoration: none; font-size: 14.5px; color: var(--muted); }
+      nav a:hover { color: var(--text); }
+      h1 { font-size: 34px; letter-spacing: -.025em; margin-bottom: 8px; font-weight: 800; }
+      .updated { color: #64789b; font-size: 14px; margin-bottom: 34px; }
+      h2 { font-size: 19px; margin: 34px 0 10px; letter-spacing: -.015em; font-weight: 700; }
+      p { color: #c6d5ec; margin-bottom: 13px; }
+      ul { margin: 0 0 14px 20px; color: #c6d5ec; }
+      li { margin-bottom: 7px; }
+      .hero-note {
+        background: linear-gradient(180deg, rgba(22,69,44,.18), rgba(22,69,44,.06));
+        border: 1px solid rgba(46,125,82,.35); border-radius: 12px; padding: 20px 22px; margin-bottom: 30px;
+      }
+      .hero-note b { color: var(--good); }
+      table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 14.5px; }
+      th, td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+      th { color: #93a9cc; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; }
+      td:first-child { color: #dbe7f8; font-weight: 600; white-space: nowrap; }
+      td { color: var(--muted); }
+      code { background: #162034; padding: 1.5px 6px; border-radius: 4px; font-size: 13.5px; }
+      footer { margin-top: 46px; padding-top: 22px; border-top: 1px solid var(--line); color: #5b6d8c; font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <nav>
+        <img src="../ext/icons/icon128.png" alt="" />
+        <b>Video Text</b>
+        <span class="sp"></span>
+        <a href="index.html">← Back to site</a>
+      </nav>
+
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: 3 September 2026</p>
+
+      <div class="hero-note">
+        <p style="margin:0">
+          <b>Short version:</b> Video Text collects nothing, transmits nothing, and
+          contacts no servers. Optical character recognition runs entirely inside
+          your own browser, offline. There is no account, no analytics, and no
+          third-party service of any kind.
+        </p>
+      </div>
+
+      <h2>Data we collect</h2>
+      <p>
+        None. The extension has no backend, no analytics SDK, and makes no network
+        requests whatsoever — not at install, not at startup, and not during use.
+        We do not receive your video frames, your extracted text, your browsing
+        history, your IP address, or any identifier.
+      </p>
+
+      <h2>Data the extension stores on your device</h2>
+      <p>
+        Two things are saved locally, using Chrome's own extension storage. Neither
+        ever leaves your computer.
+      </p>
+      <table>
+        <tr><th>What</th><th>Where</th><th>Why</th></tr>
+        <tr>
+          <td>Your captures</td>
+          <td><code>chrome.storage.local</code></td>
+          <td>The text you extract, plus its video timestamp, page title and URL, so
+              your library persists and exports can include timings and sources.</td>
+        </tr>
+        <tr>
+          <td>Your settings</td>
+          <td><code>chrome.storage.sync</code></td>
+          <td>Preferences like OCR language and upscale factor. If you have Chrome
+              Sync enabled, Google syncs these across your own signed-in browsers,
+              exactly as it does your bookmarks. We never see them.</td>
+        </tr>
+      </table>
+      <p>
+        Delete everything at any time with <b>Clear all</b> in the library, or by
+        removing the extension — uninstalling deletes its local storage.
+      </p>
+
+      <h2>Video frames</h2>
+      <p>
+        When you press <b>Grab text</b>, the extension copies the pixels inside your
+        selection into an in-memory canvas, passes them to a recognition engine that
+        is bundled inside the extension itself, and discards the image. The frame is
+        never written to disk and never uploaded. The OCR engine (a WebAssembly build
+        of Tesseract) and its language model ship inside the package, which is why
+        the download is comparatively large — and why it works with no internet
+        connection at all.
+      </p>
+
+      <h2>Permissions, and why each is needed</h2>
+      <table>
+        <tr><th>Permission</th><th>Reason</th></tr>
+        <tr><td>activeTab</td><td>Lets the overlay appear on the tab you're watching, only after you invoke the extension by shortcut, toolbar click or context menu.</td></tr>
+        <tr><td>scripting</td><td>Injects the selection overlay into that tab when you activate it.</td></tr>
+        <tr><td>storage</td><td>Saves your captures and settings locally, as described above.</td></tr>
+        <tr><td>offscreen</td><td>Hosts the OCR worker. Manifest V3 service workers cannot reliably run WebAssembly workers, so recognition happens in an offscreen document.</td></tr>
+        <tr><td>downloads</td><td>Writes the export file (.txt, .srt, .docx…) when you click Export. Files are generated locally and saved directly to your machine.</td></tr>
+        <tr><td>clipboardWrite</td><td>Copies extracted text when you press Copy.</td></tr>
+        <tr><td>contextMenus</td><td>Adds the “Extract text from this video” right-click item.</td></tr>
+      </table>
+      <p>
+        The content script is registered for all sites because a video can appear on
+        any website, and the extension cannot know in advance where you'll want to
+        use it. It only renders a selection overlay in the page; it does not read,
+        collect or transmit page content. The extension deliberately declares
+        <b>no broad <code>host_permissions</code></b> — access is limited to the tab
+        you actively invoke it on.
+      </p>
+
+      <h2>Third parties</h2>
+      <p>
+        There are none. No advertising, no trackers, no crash reporting, no remote
+        code. Manifest V3 forbids remotely hosted code, and this extension executes
+        only the files inside its own package.
+      </p>
+
+      <h2>Children</h2>
+      <p>
+        The extension collects no personal information from anyone, including
+        children under 13.
+      </p>
+
+      <h2>Changes</h2>
+      <p>
+        If this policy ever changes it will be updated here, with a new date at the
+        top. Since the extension is open source, any change in data handling is also
+        visible in the commit history.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions or concerns:
+        <a href="https://github.com/PulseInAir/Video-Text/issues">open an issue on GitHub</a>.
+        The complete source code is available at
+        <a href="https://github.com/PulseInAir/Video-Text">github.com/PulseInAir/Video-Text</a>
+        and can be independently audited.
+      </p>
+
+      <footer>Video Text is free and open source software, MIT licensed.</footer>
+    </div>
+  </body>
+</html>

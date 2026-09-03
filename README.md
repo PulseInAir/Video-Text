@@ -9,6 +9,9 @@ Tesseract, and the English language data ships inside the extension. No API keys
 
 ---
 
+**[Landing page](site/index.html)** · **[Install guide](INSTALL.md)** ·
+**[Publishing to the Web Store](PUBLISHING.md)**
+
 ## Install
 
 1. **[Download video-text-extension.zip](https://github.com/PulseInAir/Video-Text/raw/arena/01a067a1-video-text/video-text-extension.zip)** (~16 MB)

@@ -212,8 +212,13 @@ ok(fsx.existsSync(new URL('../ext/vendor/lang/eng.traineddata.gz', import.meta.u
 const mani = JSON.parse(fsx.readFileSync(new URL('../ext/manifest.json', import.meta.url), 'utf8'));
 ok(/wasm-unsafe-eval/.test(mani.content_security_policy?.extension_pages || ''),
   "CSP allows 'wasm-unsafe-eval' (MV3 blocks WebAssembly.instantiate otherwise)");
-ok((mani.web_accessible_resources?.[0]?.resources || []).includes('vendor/*'),
-  'vendor/* is web-accessible');
+// vendor/* must NOT be web-accessible: the OCR chain is entirely same-origin
+// (offscreen page -> worker -> importScripts -> fetch), so exposing it to every
+// page would only hand sites a fingerprinting signal.
+const war = mani.web_accessible_resources?.[0]?.resources || [];
+ok(!war.includes('vendor/*'), 'vendor/* is NOT needlessly web-accessible');
+ok(!mani.host_permissions,
+  'no broad host_permissions (activeTab + content_scripts cover every entry point)');
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

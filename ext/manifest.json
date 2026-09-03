@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Video Text — Overlay Text Extractor",
   "version": "1.0.0",
-  "description": "Select and extract on-screen text (subtitles, slides, captions) from any video on YouTube, Facebook, Instagram, TikTok, X and more. Export TXT, SRT, VTT, DOCX.",
+  "description": "Extract on-screen text from any video — subtitles, slides, captions. Works on YouTube, TikTok, X and more. Export TXT, SRT, DOCX.",
   "minimum_chrome_version": "116",
   "permissions": [
     "storage",
@@ -13,7 +13,6 @@
     "downloads",
     "contextMenus"
   ],
-  "host_permissions": ["<all_urls>"],
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
   },
@@ -61,7 +60,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["content/*", "pages/*", "icons/*", "vendor/*"],
+      "resources": ["icons/*"],
       "matches": ["<all_urls>"]
     }
   ]
