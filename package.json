@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Chrome extension that extracts on-screen text from videos with local OCR.",
   "scripts": {
-    "dev": "python3 -m http.server 8080"
+    "dev": "python3 -m http.server 8080",
+    "test:e2e": "node dev/e2e.mjs",
+    "test:unit": "node dev/unit.mjs",
+    "test": "node dev/unit.mjs"
   },
   "repository": {
     "type": "git",
@@ -21,5 +24,8 @@
     "tesseract.js": "^5.1.1",
     "tesseract.js-core": "^5.1.1"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "puppeteer": "^25.10.0"
+  }
 }

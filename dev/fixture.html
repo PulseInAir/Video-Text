@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Video Text — test fixture</title>
+    <style>
+      body { margin: 0; background: #0b0f17; color: #e6eefc;
+        font: 14px system-ui; display: flex; flex-direction: column;
+        align-items: center; padding: 24px; gap: 14px; }
+      h2 { font-size: 15px; font-weight: 600; margin: 0; }
+      #player { width: 900px; background: #000; }
+      video { width: 100%; display: block; }
+      .note { color: #8ba0c4; max-width: 900px; font-size: 13px; }
+      code { background: #1b2740; padding: 1px 5px; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <h2>Real &lt;video&gt; with burned-in subtitles</h2>
+    <div id="player"><video id="v" muted playsinline></video></div>
+    <p class="note">
+      A canvas renders subtitle frames and is piped into a genuine
+      <code>&lt;video&gt;</code> element via <code>captureStream()</code> — so the
+      extension sees real <code>videoWidth</code>, <code>currentTime</code> and
+      playback, with no media file needed. Press <code>Alt+S</code> to select.
+    </p>
+
+    <script>
+      // Rendered subtitle track. Each line is displayed for `hold` seconds.
+      const LINES = [
+        'we need to talk about the results',
+        'before the meeting starts',
+        'the numbers went up by 42 percent',
+        'nobody expected that outcome',
+      ];
+      const HOLD = 2.5;
+      window.__fixtureLines = LINES;
+
+      const c = document.createElement('canvas');
+      c.width = 1280;
+      c.height = 720;
+      const x = c.getContext('2d');
+
+      function drawFrame(i) {
+        const g = x.createLinearGradient(0, 0, 0, 720);
+        g.addColorStop(0, '#20304d');
+        g.addColorStop(1, '#0a1020');
+        x.fillStyle = g;
+        x.fillRect(0, 0, 1280, 720);
+        // some visual noise so OCR isn't reading a flat plate
+        x.fillStyle = '#3d5480';
+        x.beginPath();
+        x.arc(380, 280, 130, 0, 7);
+        x.fill();
+        x.fillStyle = '#2b3f63';
+        x.fillRect(760, 150, 380, 240);
+
+        x.textAlign = 'center';
+        x.font = 'bold 46px "DejaVu Sans", sans-serif';
+        x.lineWidth = 7;
+        x.strokeStyle = '#000';
+        x.fillStyle = '#fff';
+        const text = LINES[i % LINES.length];
+        x.strokeText(text, 640, 620);
+        x.fillText(text, 640, 620);
+      }
+
+      let idx = 0;
+      drawFrame(0);
+      // 10fps is plenty and keeps CPU low in CI.
+      const stream = c.captureStream(10);
+      const v = document.getElementById('v');
+      v.srcObject = stream;
+      v.play().catch(() => {});
+
+      setInterval(() => {
+        idx = (idx + 1) % LINES.length;
+        drawFrame(idx);
+      }, HOLD * 1000);
+      // keep repainting so the stream stays live
+      setInterval(() => drawFrame(idx), 100);
+
+      window.__fixtureReady = new Promise((res) => {
+        const t = setInterval(() => {
+          if (v.videoWidth > 0) {
+            clearInterval(t);
+            res(true);
+          }
+        }, 50);
+      });
+    </script>
+  </body>
+</html>

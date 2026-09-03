@@ -76,8 +76,13 @@ WASM worker; the background script proxies recognition requests to it.
 
 ```bash
 npm install
-python3 -m http.server 8080     # then open /dev/harness.html to preview the overlay
+npm test                         # 53 logic assertions, no browser needed
+npm run test:e2e                 # real Chrome + real <video> + real OCR
+npm run dev                      # then open /dev/harness.html to preview the overlay
 ```
+
+See **[TESTING.md](TESTING.md)** for the full strategy, including the manual
+site sweep and the two known-tricky paths (fullscreen and SPA navigation).
 
 ### Verified
 
