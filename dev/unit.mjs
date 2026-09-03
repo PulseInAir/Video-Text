@@ -182,5 +182,38 @@ for (const [host, expect] of [
 ]) ok(getAdapter(host).name === expect, `${host} -> ${getAdapter(host).name}`);
 ok(getAdapter('www.netflix.com').drm === true, 'Netflix flagged as DRM');
 
+/* ---------- offline OCR wiring ----------
+ * Regression guard for: "Failed to execute 'importScripts' on
+ * 'WorkerGlobalScope'". Tesseract defaults to spawning its worker from a
+ * blob: URL, which then importScripts() a chrome-extension:// path — MV3
+ * blocks that cross-scheme load. Also verifies every asset the worker can
+ * reach for is vendored, so it never silently falls back to the CDN.
+ */
+group('Offline OCR wiring');
+const fsx = await import('fs');
+const offscreen = fsx.readFileSync(new URL('../ext/pages/offscreen.js', import.meta.url), 'utf8');
+ok(/workerBlobURL\s*:\s*false/.test(offscreen), 'workerBlobURL disabled (blob worker cannot importScripts extension URLs)');
+for (const key of ['workerPath', 'corePath', 'langPath']) {
+  ok(new RegExp(key + '\\s*:\\s*U\\(').test(offscreen), `${key} pinned to an extension URL`);
+}
+
+const vendor = fsx.readdirSync(new URL('../ext/vendor', import.meta.url));
+// The worker picks a core variant at runtime based on SIMD support and
+// lstmOnly; any of the four may be requested.
+for (const core of [
+  'tesseract-core.wasm.js', 'tesseract-core-simd.wasm.js',
+  'tesseract-core-lstm.wasm.js', 'tesseract-core-simd-lstm.wasm.js',
+]) ok(vendor.includes(core), 'vendored core variant ' + core);
+ok(vendor.includes('worker.min.js'), 'vendored worker.min.js');
+ok(vendor.includes('tesseract.min.js'), 'vendored tesseract.min.js');
+ok(fsx.existsSync(new URL('../ext/vendor/lang/eng.traineddata.gz', import.meta.url)),
+  'vendored eng.traineddata.gz (gzip:true expects the .gz name)');
+
+const mani = JSON.parse(fsx.readFileSync(new URL('../ext/manifest.json', import.meta.url), 'utf8'));
+ok(/wasm-unsafe-eval/.test(mani.content_security_policy?.extension_pages || ''),
+  "CSP allows 'wasm-unsafe-eval' (MV3 blocks WebAssembly.instantiate otherwise)");
+ok((mani.web_accessible_resources?.[0]?.resources || []).includes('vendor/*'),
+  'vendor/* is web-accessible');
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

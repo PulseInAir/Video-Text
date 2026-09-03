@@ -14,6 +14,11 @@ async function getWorker(lang = 'eng') {
       langPath: U('vendor/lang'),
       gzip: true,
       cacheMethod: 'none',
+      // Tesseract defaults to spawning the worker from a blob: URL, which then
+      // importScripts() a chrome-extension:// path. MV3 forbids that
+      // cross-scheme load ("Failed to execute 'importScripts'"). Loading the
+      // worker directly from its extension URL is same-origin and allowed.
+      workerBlobURL: false,
       logger: () => {},
     });
     return w;
